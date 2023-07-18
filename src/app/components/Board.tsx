@@ -31,14 +31,14 @@ const buildBoard = (cellNumber: number) => {
   return board
 }
 
-export const Board = ({ cellNumber = 10 }: { cellNumber: number }) => {
+export const Board = () => {
   const [board, setBoard] = useState<boolean[][] | undefined>()
-  const boardSize = 200
-  const cellSize = boardSize / cellNumber
+  const cellCount = 20
+  const boardSize = 400
 
   // INITIALIZE BOARD
   useEffect(() => {
-    setBoard(buildBoard(10))
+    setBoard(buildBoard(cellCount))
   }, [])
 
   // LOOP
@@ -53,20 +53,23 @@ export const Board = ({ cellNumber = 10 }: { cellNumber: number }) => {
         })
         return newBoard
       })
-    }, 500)
+    }, 250)
     return () => clearInterval(interval)
   }, [])
 
   if (!board)
     return (
-      <div className="flex items-center justify-center w-screen h-screen border border-red-500">
-        <h1 className="text-2xl">Loading</h1>
+      <div className="flex items-center justify-center w-screen h-screen">
+        <h1 className="text-2xl">Loading...</h1>
       </div>
     )
 
   return (
-    <div className="flex flex-col items-center justify-center w-screen h-screen gap-2 border border-red-500">
-      <div className={`w-[${boardSize}px] h-[${boardSize}px]`}>
+    <div className="flex flex-col items-center justify-center w-screen h-screen gap-2 ">
+      <div
+        style={{ width: boardSize, height: boardSize }}
+        className="overflow-hidden border border-white rounded-md"
+      >
         {board.map((rows, rowIdx) => {
           return (
             <div className="flex" key={`row-${rowIdx}`}>
@@ -74,8 +77,12 @@ export const Board = ({ cellNumber = 10 }: { cellNumber: number }) => {
                 return (
                   <div
                     key={`cell-${cellIdx}`}
+                    style={{
+                      width: boardSize / cellCount,
+                      height: boardSize / cellCount,
+                    }}
                     className={classNames(
-                      `flex w-[${cellSize}px] h-[${cellSize}px] border border-white`,
+                      `flex w-[20px] h-[20px] border border-white`,
                       cell && 'bg-white',
                     )}
                   ></div>

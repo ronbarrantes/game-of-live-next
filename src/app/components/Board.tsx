@@ -8,8 +8,14 @@ const rules = (board: boolean[][], row: number, col: number) => {
 
   for (let r = row - 1; r < row + 2; r++) {
     for (let c = col - 1; c < col + 2; c++) {
-      if (r < 0 || c < 0 || r >= board.length || c >= board.length) continue // out of bounds
-      if (c === col && r === row) continue // middle cell
+      if (
+        r < 0 ||
+        c < 0 ||
+        r >= board.length ||
+        c >= board.length || // ^^out of bounds
+        (c === col && r === row) // middle cell
+      )
+        continue
       if (board[r][c] === true) {
         cellCount++
       }
@@ -36,12 +42,12 @@ export const Board = () => {
   const cellCount = 20
   const boardSize = 400
 
-  // INITIALIZE BOARD
+  // initalize board
   useEffect(() => {
     setBoard(buildBoard(cellCount))
   }, [])
 
-  // LOOP
+  // loop
   useEffect(() => {
     const interval = setInterval(() => {
       setBoard((prevBoard) => {
@@ -67,6 +73,7 @@ export const Board = () => {
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen gap-2 ">
       <div
+        // using style instead of className because of tailwind's JIT mode
         style={{ width: boardSize, height: boardSize }}
         className="overflow-hidden border border-white rounded-md"
       >
@@ -76,6 +83,7 @@ export const Board = () => {
               {rows.map((cell, cellIdx) => {
                 return (
                   <div
+                    // using style instead of className because of tailwind's JIT mode
                     key={`cell-${cellIdx}`}
                     style={{
                       width: boardSize / cellCount,

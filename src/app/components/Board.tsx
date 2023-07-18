@@ -82,7 +82,7 @@ export const Board = () => {
                       height: boardSize / cellCount,
                     }}
                     className={classNames(
-                      `flex w-[20px] h-[20px] border border-white`,
+                      `flex border border-white`,
                       cell && 'bg-white',
                     )}
                   ></div>
@@ -94,7 +94,7 @@ export const Board = () => {
       </div>
       <button
         className="px-3 py-1 bg-pink-900 rounded-lg"
-        onClick={() => setBoard(buildBoard(10))}
+        onClick={() => setBoard(buildBoard(cellCount))}
       >
         RESET
       </button>
